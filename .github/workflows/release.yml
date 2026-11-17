@@ -181,7 +181,7 @@ jobs:
           {
             echo "## GoingHub ${RELEASE_TAG}"
             echo
-            echo "GoingHub 是基于活跃社区接管分支 [M-strange/workbuddy2api-hub](https://github.com/M-strange/workbuddy2api-hub) 构建的原生多协议跨平台桌面客户端。"
+            echo "Multi-Protocol AI Gateway Desktop Client (macOS, Windows & Linux)"
             echo
             echo "### 📦 支持平台与架构"
             echo "- **macOS**: Apple Silicon (\`arm64\`) / Intel (\`x64\`)"
@@ -189,9 +189,9 @@ jobs:
             echo "- **Linux**: x86_64 (\`x64\`) / AArch64 (\`arm64\`)"
             echo
             echo "### 说明"
-            echo "- 内置最新社区接管内核 (${RELEASE_TAG})，支持 IP 归属地识别、熔断自动探活与排队并发优化"
-            echo "- 内嵌独立便携 Python 3.11 环境，无需预装任何运行库，开箱即用"
-            echo "- 全面兼容 OpenAI Chat / Responses / Anthropic Claude Messages / 图像与视频多模态接口"
+            echo "- 原生跨平台桌面客户端，免去手动终端命令与 Docker 部署，开箱即用，托盘常驻"
+            echo "- 内嵌独立便携 Python 3.11 环境，无需预装任何运行库"
+            echo "- 全面兼容 OpenAI Chat / Responses / Anthropic Messages / 图像与视频多模态协议"
             echo "- 系统托盘常驻，图标自适应深色/浅色主题"
             echo
             echo "### ⚠️ 免责声明 (Disclaimer)"

@@ -227,7 +227,7 @@ class TrayManager {
         applicationVersion: `v${app.getVersion()}`,
         version: `Kernel: ${kernelVer}`,
         copyright: 'MIT License',
-        credits: '社区增强版大模型网关客户端 (Based on M-strange/workbuddy2api-hub)\n\n免责声明 (Disclaimer):\n本项目仅用于协议学习与个人开发测试，不提供任何商业服务或可用性担保。因使用非官方客户端产生的账号风控、限制或封禁由使用者自行承担，请优先使用官方客户端。'
+        credits: 'Multi-Protocol AI Gateway Desktop Client (macOS, Windows & Linux)\n\n免责声明 (Disclaimer):\n本项目仅用于协议学习与个人开发测试，不提供任何商业服务或可用性担保。因使用非官方客户端产生的账号风控、限制或封禁由使用者自行承担，请优先使用官方客户端。'
       });
     }
   }
@@ -237,22 +237,18 @@ class TrayManager {
     const kernelVer = this.backendManager ? this.backendManager.getKernelVersion() : 'v2.2.0';
     const detailText = [
       '【关于本客户端 / About GoingHub】',
-      '• 客户端定位：本软件是基于社区活跃接管分支（M-strange/workbuddy2api-hub）构建的跨平台多协议大模型网关客户端。',
+      '• 客户端定位：本软件是开箱即用的跨平台多协议大模型网关客户端。',
       '  全面支持 OpenAI Chat Completions、OpenAI Responses（Codex CLI）、Anthropic Claude Messages（Claude Code）以及多模态图像/视频生成等多种主流 API 协议格式。',
-      '  (This is a community-driven multi-protocol AI gateway desktop client based on M-strange/workbuddy2api-hub. It supports OpenAI Chat Completions, OpenAI Responses for Codex CLI, Anthropic Claude Messages for Claude Code, and Image/Video Generation APIs.)',
+      '  (This is a multi-protocol AI gateway desktop client. It supports OpenAI Chat Completions, OpenAI Responses for Codex CLI, Anthropic Claude Messages for Claude Code, and Image/Video Generation APIs.)',
       '',
       `• 当前版本：客户端 v${appVer} | 内置内核 ${kernelVer}`,
       `  (Current Versions: Client v${appVer} | Bundled Kernel ${kernelVer})`,
-      '',
-      '• 社区特性：',
-      '  包含来源 IP 全链路与归属地视图（wb_client_geo）、账号池排队等待、熔断自动探活、上游超时优化等社区增强。',
       '',
       '• ⚠️ 免责声明 (Disclaimer)：',
       '  本项目仅用于协议学习与个人开发测试，不提供任何商业服务或可用性担保。因使用非官方客户端产生的账号风控、限制或封禁由使用者自行承担，请优先使用官方客户端。',
       '  (This project is intended solely for protocol study and personal development/testing, without any commercial service or availability warranty. Any account risk control, restriction, or ban resulting from using unofficial clients is entirely the user\'s responsibility. Please prioritize using official clients.)',
       '',
       '• 开源协议 (License)：MIT License',
-      '• 社区上游仓库：https://github.com/M-strange/workbuddy2api-hub',
       '• 客户端 GitHub 仓库：https://github.com/scott20201225/GoingHub'
     ].join('\n');
 
@@ -261,14 +257,12 @@ class TrayManager {
       title: '关于 GoingHub / About GoingHub',
       message: `GoingHub v${appVer} (内核 ${kernelVer})`,
       detail: detailText,
-      buttons: ['确定 (OK)', '访问社区上游 (Upstream)', '访问客户端仓库 (Client Repo)'],
+      buttons: ['确定 (OK)', '访问 GitHub 仓库 (GitHub Repo)'],
       defaultId: 0,
       cancelId: 0,
       noLink: true
     }).then(({ response }) => {
       if (response === 1) {
-        shell.openExternal('https://github.com/M-strange/workbuddy2api-hub');
-      } else if (response === 2) {
         shell.openExternal('https://github.com/scott20201225/GoingHub');
       }
     });
