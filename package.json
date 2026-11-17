@@ -1,0 +1,170 @@
+{
+  "name": "goinghub",
+  "productName": "GoingHub",
+  "version": "2.2.0",
+  "description": "GoingHub - Multi-Protocol AI Gateway Desktop Client for macOS, Windows & Linux (OpenAI Chat/Responses, Anthropic Messages, Media APIs)",
+  "main": "src/main/index.js",
+  "author": "scott20201225 <scottchengmingfeng@outlook.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/scott20201225/GoingHub.git"
+  },
+  "bugs": {
+    "url": "https://github.com/scott20201225/GoingHub/issues"
+  },
+  "homepage": "https://github.com/scott20201225/GoingHub#readme",
+  "scripts": {
+    "start": "electron .",
+    "sync:upstream": "node scripts/sync-upstream.js",
+    "build": "electron-builder --publish never",
+    "build:mac": "node scripts/prepare-python.js darwin arm64 && electron-builder --mac --publish never",
+    "build:mac:arm64": "node scripts/prepare-python.js darwin arm64 && electron-builder --mac --arm64 --publish never",
+    "build:mac:x64": "node scripts/prepare-python.js darwin x64 && electron-builder --mac --x64 --publish never",
+    "build:win": "node scripts/prepare-python.js win32 x64 && electron-builder --win --publish never",
+    "build:win:x64": "node scripts/prepare-python.js win32 x64 && electron-builder --win --x64 --publish never",
+    "build:win:arm64": "node scripts/prepare-python.js win32 arm64 && electron-builder --win --arm64 --publish never",
+    "build:linux": "node scripts/prepare-python.js linux x64 && electron-builder --linux AppImage deb --publish never",
+    "build:linux:x64": "node scripts/prepare-python.js linux x64 && electron-builder --linux AppImage deb --x64 --publish never",
+    "build:linux:arm64": "node scripts/prepare-python.js linux arm64 && electron-builder --linux AppImage tar.gz --arm64 --publish never",
+    "build:assets": "node scripts/build-assets.js"
+  },
+  "dependencies": {
+    "@resvg/resvg-js": "^2.6.2",
+    "adm-zip": "^0.6.1"
+  },
+  "devDependencies": {
+    "electron": "^45.3.1",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.scottcheng.goinghub",
+    "productName": "GoingHub",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "src/**/*",
+      "assets/**/*",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "backend",
+        "to": "backend",
+        "filter": [
+          "**/*",
+          "!**/__pycache__/**",
+          "!**/*.pyc",
+          "!**/.git/**"
+        ]
+      },
+      {
+        "from": "build-resources/python",
+        "to": "python",
+        "filter": [
+          "**/*",
+          "!**/__pycache__/**",
+          "!**/*.pyc",
+          "!**/tests/**"
+        ]
+      }
+    ],
+    "mac": {
+      "icon": "assets/icon.png",
+      "category": "public.app-category.developer-tools",
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "arm64",
+            "x64"
+          ]
+        },
+        {
+          "target": "zip",
+          "arch": [
+            "arm64",
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "${productName}-${version}-mac-${arch}.${ext}",
+      "hardenedRuntime": false,
+      "gatekeeperAssess": false,
+      "identity": null
+    },
+    "dmg": {
+      "title": "${productName} ${version}",
+      "contents": [
+        {
+          "x": 130,
+          "y": 220
+        },
+        {
+          "x": 410,
+          "y": 220,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ],
+      "window": {
+        "width": 540,
+        "height": 380
+      }
+    },
+    "win": {
+      "icon": "assets/icon.ico",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        },
+        {
+          "target": "zip",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        }
+      ],
+      "artifactName": "${productName}-${version}-win-${arch}-setup.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "GoingHub"
+    },
+    "linux": {
+      "icon": "assets/icon.png",
+      "category": "Development",
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        },
+        {
+          "target": "deb",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "tar.gz",
+          "arch": [
+            "arm64"
+          ]
+        }
+      ],
+      "artifactName": "${productName}-${version}-linux-${arch}.${ext}"
+    }
+  }
+}

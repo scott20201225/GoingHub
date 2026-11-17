@@ -1,0 +1,78 @@
+name: Auto Sync Upstream Release
+
+on:
+  schedule:
+    # Run twice daily错峰 check
+    - cron: '15 2,14 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: auto-sync-upstream
+  cancel-in-progress: false
+
+jobs:
+  check-and-sync:
+    name: Check & Sync Upstream Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Check for upstream release update
+        id: check
+        run: node scripts/sync-upstream.js --check-only
+
+      - name: Sync upstream and trigger release
+        if: steps.check.outputs.has_update == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          UPSTREAM_TAG: ${{ steps.check.outputs.latest_tag }}
+        run: |
+          echo "=========================================================="
+          echo "🎉 New community upstream release detected: ${UPSTREAM_TAG}"
+          echo "=========================================================="
+
+          # 1. Install dependencies and pull upstream code
+          npm ci || npm install
+          node scripts/sync-upstream.js
+
+          # 2. Determine new release tag
+          clean_ver=$(echo "${UPSTREAM_TAG}" | sed 's/^v//')
+          new_tag="v${clean_ver}"
+          echo "Next GoingHub release tag: ${new_tag} (clean: ${clean_ver})"
+
+          # 3. Synchronize package.json and lockfile
+          npm version "${clean_ver}" --no-git-tag-version --allow-same-version
+          echo "Updated package.json and lockfile to ${clean_ver}"
+
+          # 4. Configure git identity
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # 5. Commit and push to main (if changes exist)
+          git add -A
+          if ! git diff --staged --quiet; then
+            git commit -m "chore(upstream): auto-sync community upstream ${UPSTREAM_TAG}"
+            git push origin main
+          fi
+
+          # 6. Create and push tag
+          git tag -a "${new_tag}" -m "Release ${new_tag} (Community upstream ${UPSTREAM_TAG})"
+          git push origin "${new_tag}"
+
+          # 7. Trigger release build workflow
+          echo "Triggering release workflow for ${new_tag}..."
+          gh workflow run release.yml -f release_tag="${new_tag}"
+          echo "✅ Triggered release.yml with release_tag=${new_tag}"
