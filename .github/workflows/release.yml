@@ -63,7 +63,7 @@ jobs:
             arch: arm64
             script: build:mac:arm64
           - name: mac-x64
-            os: macos-13
+            os: macos-latest
             platform: mac
             arch: x64
             script: build:mac:x64
