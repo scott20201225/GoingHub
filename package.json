@@ -56,46 +56,31 @@
           "**/*",
           "!**/__pycache__/**",
           "!**/*.pyc",
-          "!**/.git/**"
+          "!accounts/*.json",
+          "!usage/*.jsonl"
         ]
       },
       {
         "from": "build-resources/python",
         "to": "python",
         "filter": [
-          "**/*",
-          "!**/__pycache__/**",
-          "!**/*.pyc",
-          "!**/tests/**"
+          "**/*"
         ]
       }
     ],
     "mac": {
-      "icon": "assets/icon.png",
-      "category": "public.app-category.developer-tools",
-      "target": [
-        {
-          "target": "dmg",
-          "arch": [
-            "arm64",
-            "x64"
-          ]
-        },
-        {
-          "target": "zip",
-          "arch": [
-            "arm64",
-            "x64"
-          ]
-        }
-      ],
       "artifactName": "${productName}-${version}-mac-${arch}.${ext}",
+      "category": "public.app-category.developer-tools",
+      "icon": "assets/icon.icns",
+      "target": [
+        "dmg",
+        "zip"
+      ],
       "hardenedRuntime": false,
-      "gatekeeperAssess": false,
-      "identity": null
+      "gatekeeperAssess": false
     },
     "dmg": {
-      "title": "${productName} ${version}",
+      "artifactName": "${productName}-${version}-mac-${arch}.${ext}",
       "contents": [
         {
           "x": 130,
@@ -107,64 +92,33 @@
           "type": "link",
           "path": "/Applications"
         }
-      ],
-      "window": {
-        "width": 540,
-        "height": 380
-      }
+      ]
     },
     "win": {
+      "artifactName": "${productName}-${version}-win-${arch}.${ext}",
       "icon": "assets/icon.ico",
       "target": [
-        {
-          "target": "nsis",
-          "arch": [
-            "x64",
-            "arm64"
-          ]
-        },
-        {
-          "target": "zip",
-          "arch": [
-            "x64",
-            "arm64"
-          ]
-        }
-      ],
-      "artifactName": "${productName}-${version}-win-${arch}-setup.${ext}"
+        "nsis",
+        "zip"
+      ]
     },
     "nsis": {
+      "artifactName": "${productName}-${version}-win-${arch}-setup.${ext}",
       "oneClick": false,
+      "perMachine": false,
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
       "shortcutName": "GoingHub"
     },
     "linux": {
+      "artifactName": "${productName}-${version}-linux-${arch}.${ext}",
       "icon": "assets/icon.png",
-      "category": "Development",
       "target": [
-        {
-          "target": "AppImage",
-          "arch": [
-            "x64",
-            "arm64"
-          ]
-        },
-        {
-          "target": "deb",
-          "arch": [
-            "x64"
-          ]
-        },
-        {
-          "target": "tar.gz",
-          "arch": [
-            "arm64"
-          ]
-        }
+        "AppImage",
+        "deb"
       ],
-      "artifactName": "${productName}-${version}-linux-${arch}.${ext}"
+      "category": "Development"
     }
   }
 }
